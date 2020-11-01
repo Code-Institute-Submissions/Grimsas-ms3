@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block product %}
+<h2>Category</h2>
+{% for product in products %}
+
+
+
+<div class="parallax-container valign-wrapper">
+	<div class="section no-pad-bot">
+		<div class="container">
+			<div class="row center">
+				<h4 class="header col s12 light">{{ product.product_name }}</h4><br>
+				<h4 class="header col s12 light">By</h4><br>
+				<h5 class="header col s12 light">{{ product.brand }}</h5>
+
+				<img src="{{ product.item_image_url }}" class="responsive-img" alt="{{ product_name }}">
+
+				<p>{{ product.reviews }}<br> </p>
+			</div>
+		</div>
+	</div>
+	<div class="parallax">
+		<img src=" {{ url_for('static', filename='img/background2.jpg') }}" alt="Unsplashed background img 1"></div>
+
+	</div>
+</div>
+	<div class="container">
+		<div class="section">
+
+			<div class="row">
+				<div class="col s12 center">
+					<h3><i class="mdi-content-send brown-text"></i></h3>
+					<h5><a class="" href="{{ url_for('get_products', product_id=product.name) }}"></a></h5>
+
+
+					<p class="left-align light"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="parallax">
+
+	</div>
+	<div>
+
+	</div>
+
+	{% endfor %}
+	{% endblock %}

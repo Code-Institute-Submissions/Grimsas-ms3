@@ -1,8 +1,9 @@
 import os
-from flask import (Flask, flash, render_template,redirect, request, session, url_for)
-from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
+from flask_pymongo import PyMongo
+from werkzeug.security import check_password_hash, generate_password_hash
 if os.path.exists("env.py"):
     import env
 
@@ -17,25 +18,33 @@ mongo = PyMongo(app)
 
 
 @app.route("/")
-@app.route("/get_products")
+@app.route("/home")
 def get_products():
     products = mongo.db.products.find()
-    return render_template("products.html", products=products)
+    return render_template("index.html", products=products)
 
 
-@app.route("/get_users")
+@app.route("/users")
 def get_users():
     users = mongo.db.users.find()
     return render_template("users.html", users=users)
 
 
-@app.route("/get_product_image")
-def get_product_image():
-    get_product_image = mongo.db.products.find()
-    return render_template("get_product_image.html", get_product_image=get_product_image)
+@app.route("/register")
+def register():
+    register = mongo.db.users.find()
+    return render_template("register.html", register=register)
 
 
-@app.route('/add_products')
+# @app.route("/get_product_image")
+# def get_product_image():
+#     get_product_image = mongo.db.products.find()
+#     return render_template(
+#         "get_product_image.html",
+#         get_product_image=get_product_image)
+
+
+@app.route('/add_your_grail')
 def add_products():
     return render_template(
         'add_product.html', products=mongo.db.products.find())

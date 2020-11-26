@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 
 <head>
 	<meta charset="UTF-8">
@@ -7,11 +7,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
 		integrity="sha512-xA6Hp6oezhjd6LiLZynuukm80f8BoZ3OpcEYaqKoCV3HKQDrYjDE1Gu8ocxgxoXmwmSzM4iqPvCsOkQNiu41GA=="
 		crossorigin="anonymous" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="{{ url_for('static', filename='css/materialize.css') }}" type="text/css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
 		type="text/css">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-	<title>My holy Grail</title>
+	<title>My Holy Grail</title>
 </head>
 
 <body>
@@ -20,48 +21,51 @@
 			<a id="logo-container" href="#" class="brand-logo">My holy Grail</a>
 			<ul class="right hide-on-med-and-down">
 				<li><a href="#">Home</a></li>
-				<li><a href="#">Sign Up!</a></li>
+				<li><a href="{{url_for('register')}}">Sign Up!</a></li>
                 <li><a href="#">News</a></li>
 			</ul>
 			<ul id="nav-mobile" class="sidenav">
                 <li><a href="#">Home</a></li>
-				<li><a href="#">Sign Up!</a></li>
+				<li><a href="{{url_for('register')}}">Sign Up!</a></li>
                 <li><a href="#">News</a></li>
 			</ul>
 			<a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 		</div>
 	</nav>     
-
-
-      <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center black-text text-lighten-2">Our Selection</h1>
-        <div class="row center">
-          <h5 class="header col s12 black-text text-lighten-4">A modern responsive....</h5>
-        </div>
-        <div class="row center">
-          <a href="" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-        </div>
-        <br><br>
-
-      </div>
-    </div>
-    <div class="parallax"><img src=" {{ url_for('static', filename='img/background1.jpg') }}" alt="Unsplashed background img 1"></div>
-  </div>
-				    {% block product %}
+      
+				    {% block content %}
 				    {% endblock %}
-				<div>
-				    {% block latest %}
-				    {% endblock %}
-				</div>
-	
+
+<footer class="page-footer">
+	<div class="container">
+		<div class="row">
+			<div class="col s5 offset-s1">
+				<h5 class="white-text">Follow Us </h5>
+			    <i class="material-icons prefix">account_circle</i>
+                <i class="material-icons prefix">account_balance_wallet</i>
+                <i class="material-icons prefix">linked_camera</i>
+                </div>
+			<div class="col s5  offset-s1">
+				<h5 class="white-text"> Popular Links</h5>
+				<ul>
+					<li><a class="grey-text text-lighten-3" href="#!">Get In Touch</a></li>
+					<li><a class="grey-text text-lighten-3" href="#!">Cookie preferences</a></li>
+					<li><a class="grey-text text-lighten-3" href="#!">T&C</a></li>
+					<li><a class="grey-text text-lighten-3" href="#!">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="footer-copyright">
+		<div class="container">
+			© 2020 Copyright
+
+		</div>
+	</div>
+</footer>
+
             <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-			
 			<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/init.js') }}"></script>
-
 </body>
-
 </html>

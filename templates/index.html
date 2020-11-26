@@ -1,10 +1,8 @@
+<!DOCTYPE html> <!-- doctyped just to ignore the fault -->
 {% extends "base.html" %}
-{% block product %}
-<h2>Category</h2>
+{% block content %}
+<h2>Categories</h2>
 {% for product in products %}
-
-
-
 <div class="parallax-container valign-wrapper">
 	<div class="section no-pad-bot">
 		<div class="container">
@@ -19,6 +17,23 @@
 			</div>
 		</div>
 	</div>
+    <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center black-text text-lighten-2">Our Selection</h1>
+        <div class="row center">
+          <h5 class="header col s12 black-text text-lighten-4">A modern responsive....</h5>
+        </div>
+        <div class="row center">
+          <a href="" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+        </div>
+        <br>
+        <br>
+      </div>
+    </div>
+    <div class="parallax"><img src=" {{ url_for('static', filename='img/background1.jpg') }}" alt="Unsplashed background img 1"></div>
+  </div>
 	<div class="parallax">
 		<img src=" {{ url_for('static', filename='img/background2.jpg') }}" alt="Unsplashed background img 1"></div>
 

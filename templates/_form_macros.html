@@ -1,0 +1,17 @@
+{% macro auth(field) %}
+<div class="row">
+    <div class="input-field col s10 offset-s1">
+        {{ field(**kwargs)|safe }}
+        {{ field.label }}
+    </div>
+    <div>
+        <ul>
+            {% for error in field.errors %}
+            <div class="row flashes">
+                <li>{{ error }}</li>
+            </div>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endmacro %}

@@ -4,3 +4,7 @@ core.python*
 env.py
 __pycache__/
 *.py[cod]
+env
+.vscode
+shortcuts.txt
+tox.ini

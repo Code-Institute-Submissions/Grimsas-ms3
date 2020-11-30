@@ -1,6 +1,5 @@
 import os
-from flask import (Flask, flash, redirect, render_template, request, session,
-                   url_for)
+from flask import (Flask, flash, redirect, render_template, request, url_for)
 from flask_pymongo import PyMongo
 from flask_wtf import FlaskForm
 # from flask_uploads import UploadSet, IMAGES
@@ -48,15 +47,15 @@ def load_user(user_cookie):
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[
-        InputRequired(), Length(min=5, max=20)])
+        InputRequired(), Length(min=5, max=30)])
     password = PasswordField('Password', [InputRequired()])
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[
         InputRequired(),
-        Length(min=5, max=20,
-               message='Username must be between 5 and 20 characters long')])
-    password = PasswordField('New Password', [InputRequired(), EqualTo(
+        Length(min=5, max=30,
+               message='Username must be between 5 and 30 characters long')])
+    password = PasswordField('Password', [InputRequired(), EqualTo(
         'confirm', message='Passwords must match'),
         Length(min=8, max=80,
                message='password must be minimum 8 characters long')])
@@ -88,12 +87,10 @@ def signup():
         users = mongo.db.users
         user_exists = users.find_one(
             {'username': form.username.data})
-        print(user_exists)
-        print(list(users.find()))
         if user_exists is None:
             users.insert_one(
                 ({'username': form.username.data,
-                 'password': generate_password_hash(form.password.data),
+                  'password': generate_password_hash(form.password.data),
                   'user_cookie': generate_password_hash(form.username.data)}))
             flash('Welcome!')
             return redirect(url_for('login'))
@@ -120,8 +117,15 @@ def login():
         auth_user = User(user)
         login_user(auth_user)
         return redirect(url_for(
-            "profile", username=current_user.user_session['username']))
+            'profile', username=current_user.user_session['username']))
     return render_template('login.html', form=form, action=action)
+
+@app.route('/profile/<username>', methods=['GET', 'POST'])
+def profile(username):
+    username = current_user.user_session['username']
+    if username:
+        return render_template('profile.html', username=username)
+    return redirect(url_for('login'))
 
 
 @app.route('/post_review', methods=['GET', 'POST'])
@@ -145,7 +149,7 @@ def get_categories():
     categories = list(mongo.db.categories.find().sort('category_name', 1))
     return render_template('categories.html', categories=categories)
 
-@app.route('/administrator')
+@app.route('/profile/administrator')
 @login_required
 def administrator():
     return '<p>Hello {}</p>'.format(current_user.user_session['username'])
@@ -158,4 +162,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host=os.environ.get('IP'),
+            port=int(os.environ.get('PORT')),
+            debug=True)

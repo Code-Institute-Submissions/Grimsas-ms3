@@ -18,8 +18,9 @@
 <body>
 	<nav class="white" role="navigation">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="{{url_for('administrator')}}" class="brand-logo">My Holy Grail</a>
+			<a id="logo-container" href="#" class="brand-logo">My Holy Grail</a>
 			<ul class="right hide-on-med-and-down">
+				<li><a href="{{ url_for('get_categories') }}">Categories</a></li>
 				<li><a href="{{ url_for('get_products') }}">Home</a></li>
 				{% if current_user.is_anonymous %}
 				<li><a href="{{url_for('signup') }}">Sign Up!</a></li>
@@ -33,6 +34,7 @@
 				{% endif %}
 			</ul>
 			<ul id="nav-mobile" class="sidenav">
+				<li><a href="{{ url_for('get_categories') }}">Categories</a></li>
 				<li><a href="{{ url_for('get_products') }}">Home</a></li>
 				{% if current_user.is_anonymous %}
 				<li><a href="{{ url_for('signup') }}">Sign Up!</a></li>
@@ -75,7 +77,7 @@
 					<li><a class="grey-text text-lighten-3" href="#!">Get In Touch</a></li>
 					<li><a class="grey-text text-lighten-3" href="#!">Cookie preferences</a></li>
 					<li><a class="grey-text text-lighten-3" href="#!">T&C</a></li>
-					<li><a class="grey-text text-lighten-3" href="#!">About</a></li>
+					<li><a class="grey-text text-lighten-3" href="{{url_for('administrator')}}">Admin Login</a></li>
 				</ul>
 			</div>
 		</div>

@@ -42,6 +42,14 @@ text{
     padding-bottom: 1em;
   }
 
+  .carousel.carousel-item{
+    visibility: visible;
+    }
+
+  .carousel-item{
+      visibility: visible;
+  }
+
 @media only screen and (max-width : 992px) {
   .parallax-container .section {
     position: absolute;
@@ -58,6 +66,27 @@ text{
   }
 }
 
+
+.fit-image > img{
+  object-fit: cover;
+}
+.rectangle {
+    width: 100%;
+    padding-bottom: 50%;
+    margin: 1.66%;
+    align-items: center;
+    background-color: #ffffff;
+    position: relative;
+    object-fit: cover;
+}
+
+.rectangle > a {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+object-fit:cover
 .icon-block {
   padding: 0 15px;
 }

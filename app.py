@@ -1,9 +1,9 @@
 import os
 import json
+import math
 from flask import (Flask, flash, redirect, render_template, request, url_for)
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, pymongo
 from flask_wtf import FlaskForm
-# from flask_uploads import UploadSet, IMAGES
 from bson.objectid import ObjectId
 from bson import json_util
 from bson.json_util import dumps
@@ -14,7 +14,6 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import (LoginManager, UserMixin,
                          login_user, login_required, logout_user, current_user)
 from werkzeug.security import generate_password_hash, check_password_hash
-from werkzeug.utils import secure_filename
 if os.path.exists('env.py'):
     import env
 
@@ -27,10 +26,10 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 mongo = PyMongo(app)
 login_manager = LoginManager(app)
-
 login_manager.login_view = 'login'
 
-# images = UploadSet('images', IMAGES)
+
+
 
 class User(UserMixin):
     def __init__(self, user_session):
@@ -64,7 +63,6 @@ class SignupForm(FlaskForm):
     confirm = PasswordField('Repeat Password')
 
 class ReviewForm(FlaskForm):
-    # username = current_user.user_session['username']
     category = SelectField('Category',
                            choices=list(mongo.db.categories.find()))
     brand = StringField('Brand', validators=[InputRequired()])
@@ -72,18 +70,8 @@ class ReviewForm(FlaskForm):
     accept_tnc = BooleanField('I accept the T&C',
                               validators=[InputRequired()]),
     title = StringField('Title', validators=[InputRequired()])
-    # upload = FileField('image', FileAllowed(images, 'Images only!'))
 
-class ReviewFormTags(FlaskForm):
-    # username = current_user.user_session['username']
-    category = SelectField('Category',
-                           choices=list(mongo.db.categories.find()))
-    brand = StringField('Brand', validators=[InputRequired()])
-    review = TextAreaField('Your Story', validators=[InputRequired()])
-    accept_tnc = BooleanField('I accept the T&C',
-                              validators=[InputRequired()]),
-    title = StringField('Title', validators=[InputRequired()])
-    # upload = FileField('image', FileAllowed(images, 'Images only!'))
+
 
 @app.route('/')
 @app.route('/get_products')
@@ -130,6 +118,7 @@ def login():
             'profile', username=current_user.user_session['username']))
     return render_template('login.html', form=form, action=action)
 
+
 @app.route('/profile/<username>', methods=['GET', 'POST'])
 @login_required
 def profile(username):
@@ -139,11 +128,21 @@ def profile(username):
     return redirect(url_for('login'))
 
 
+# @app.route('/post_review', methods=['GET', 'POST'])
+# def post_review():
+#     return render_template("post_review.html",
+#                            categories=mongo.db.categories.find(),
+#                            products=mongo.db.products.find(),
+#                            brands=mongo.db.brands.find(),
+#                            users=mongo.db.users.find())
+
+
 @app.route('/post_review', methods=['GET', 'POST'])
 def post_review():
     action = 'post_review'
     post_review = ReviewForm()
     categories = list(mongo.db.categories.find())
+    products = mongo.db.products.find()
     if post_review.validate_on_submit():
         confim_post = {
             'username': post_review.username.data,
@@ -156,38 +155,48 @@ def post_review():
         return render_template('confirm_post.html', **confim_post)
     return render_template('post_review.html',
                            post_review=post_review,
-                           action=action, categories=categories)
+                           action=action, categories=categories,
+                           products=products)
 
-@app.route('/post_review', methods=['GET', 'POST'])
-def post_review_tags():
-    action = 'post_review_tags'
-    post_review_tags = ReviewFormTags()
-    if post_review_tags.validate_on_submit():
-        tags = {
-            'skintype': ['Normal', 'Oily', 'Dry',
-                         'Conbination', 'Sensitive', 'Mature'],
-            'pigmentation': ['Highly Pigmented', 'High Coverage',
-                             'Medium Coverage', 'Sheer', 'Buildable'],
-            'finish': ['Matte', 'Dewy', 'Satin', 'Glossy'],
-            'suggested_ocasions': ['Normal', 'Oily', 'Dry',
-                                   'Conbination', 'Sensitive', 'Mature']
-        }
-        return render_template('confirm_post.html', **tags)
-    return render_template('post_review.html',
-                           post_review_tags=post_review_tags, action=action)
+# @app.route('/post_review', methods=['GET', 'POST'])
+# def post_review_tags():
+#     action = 'post_review_tags'
+#     post_review_tags = ReviewFormTags()
+#     if post_review_tags.validate_on_submit():
+#         tags = {
+#             'skintype': ['Normal', 'Oily', 'Dry',
+#                          'Conbination', 'Sensitive', 'Mature'],
+#             'pigmentation': ['Highly Pigmented', 'High Coverage',
+#                              'Medium Coverage', 'Sheer', 'Buildable'],
+#             'finish': ['Matte', 'Dewy', 'Satin', 'Glossy'],
+#             'suggested_ocasions': ['Normal', 'Oily', 'Dry',
+#                                    'Conbination', 'Sensitive', 'Mature']
+#         }
+#         return render_template('confirm_post.html', **tags)
+#     return render_template('post_review.html',
+#                            post_review_tags=post_review_tags, action=action)
+
+@app.route("/uploads")
+def upload(filename):
+    return mongo.send_file(filename)
+
+@app.route("/uploads/<filename>", methods=["POST"])
+def download(filename):
+    mongo.save_file(filename, request.files["file"])
+    return redirect(url_for("uploads", filename=filename))
 
 
 @app.route('/', methods=['GET', 'POST'])
-def index(tags):
+def index():
     if request.method == 'POST':
-        print(request.form.getlist(tags))
+        print(request.form.getlist('mycheckbox'))
         return redirect(url_for('get_products'))
     return render_template('index.html')
 
 
 @app.route('/get_categories')
 def get_categories():
-    categories = list(mongo.db.categories.find().sort('category_name', 1))
+    categories = list(mongo.db.categories.find())
     return render_template('categories.html', categories=categories)
 
 @app.route('/admin/admin/', methods=['GET', 'POST'])

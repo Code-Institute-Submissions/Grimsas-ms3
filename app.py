@@ -28,9 +28,6 @@ mongo = PyMongo(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-
-
-
 class User(UserMixin):
     def __init__(self, user_session):
         self.user_session = user_session
@@ -70,7 +67,6 @@ class ReviewForm(FlaskForm):
     accept_tnc = BooleanField('I accept the T&C',
                               validators=[InputRequired()]),
     title = StringField('Title', validators=[InputRequired()])
-
 
 
 @app.route('/')

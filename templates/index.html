@@ -12,21 +12,9 @@
 	</div>
   </section>    
 <div>
-
-<h2>Categories</h2>
-
-<div class="carousel">
-    <a class="carousel-item" href="{{ url_for('get_categories', name=foundation) }}"><img src=" {{ url_for('static', filename='img/categories/1.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=concealer) }}"><img src=" {{ url_for('static', filename='img/categories/2.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=face_powders) }}"><img src=" {{ url_for('static', filename='img/categories/3.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=blush) }}"><img src=" {{ url_for('static', filename='img/categories/4.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=highlighters) }}"><img src=" {{ url_for('static', filename='img/categories/5.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=eyeshadow) }}"><img src=" {{ url_for('static', filename='img/categories/6.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=eyeliner) }}"><img src=" {{ url_for('static', filename='img/categories/7.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=mascara) }}"><img src=" {{ url_for('static', filename='img/categories/8.jpg') }}" alt=""></a>
-    <a class="carousel-item" href="{{ url_for('get_categories', name=lipstics) }}"><img src=" {{ url_for('static', filename='img/categories/9.jpg') }}" alt=""></a>
 </div>
 
+<h2>Categories</h2>
 
 {% for product in products %}
 <div class="parallax-container valign-wrapper">

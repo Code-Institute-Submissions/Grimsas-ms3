@@ -18,14 +18,18 @@
 <body>
 	<nav class="white" role="navigation">
 		<div class="nav-wrapper container">
-			<a id="logo-container" href="{{url_for('administrator')}}" class="brand-logo">My holy Grail</a>
+			<a id="logo-container" href="{{url_for('administrator')}}" class="brand-logo">My Holy Grail</a>
 			<ul class="right hide-on-med-and-down">
 				<li><a href="{{ url_for('get_products') }}">Home</a></li>
 				{% if current_user.is_anonymous %}
 				<li><a href="{{url_for('signup') }}">Sign Up!</a></li>
 				<li><a href="{{url_for('login') }}">Login</a></li>
 				{% else %}
+				<li><a href="{{ url_for('profile', username=current_user.user_session['username']) }}">Profile</a></li>
+				<li><a href="{{ url_for('post_review') }}">Add Yours!</a></li>
 				<li><a href="{{ url_for('logout') }}">Logout</a></li>
+				
+				
 				{% endif %}
 			</ul>
 			<ul id="nav-mobile" class="sidenav">
@@ -34,13 +38,16 @@
 				<li><a href="{{ url_for('signup') }}">Sign Up!</a></li>
 				<li><a href="{{ url_for('login') }}">Login</a></li>
 				{% else %}
+				<li><a href="{{ url_for('profile', username=current_user.user_session['username']) }}">Profile</a></li>
+				<li><a href="{{ url_for('post_review') }}">Add Yours!</a></li>
 				<li><a href="{{ url_for('logout') }}">Logout</a></li>
+				
 				{% endif %}
 			</ul>
 			<a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 		</div>
-	</nav>     
-	<div>
+	</nav>
+
 		{% with messages = get_flashed_messages() %}
 		{% if messages %}
 			{% for message in messages %}
@@ -50,7 +57,6 @@
 			{% endfor %}
 		{% endif %}
 	{% endwith %}
-	</div>
 				    {% block content %}
 				    {% endblock %}
 

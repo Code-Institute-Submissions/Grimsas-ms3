@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+<section class="container index-search ">
+	<div class="search row ">
+	  <form method="POST" action="search" class="valign-wrapper center">
+		<button class=" submit-btn btn-small waves-effect waves-light blue" type="submit" name="action"> Search  <i class="material-icons">search</i></button>
+		<div class="col s10 valign-wrapper">
+		  <label class="label-icon" for="search"></label>
+		  <input class="input_search" id="word_find" name="word_find" type="search" placeholder="search" required>
+		</div>
+	  </form>
+	</div>
+  </section>    
+<div>
+
 <h2>Categories</h2>
 {% for product in products %}
 <div class="parallax-container valign-wrapper">
@@ -54,7 +67,7 @@
 	</div>
 
 	<div class="parallax">
-
+	
 	</div>
 	<div>
 

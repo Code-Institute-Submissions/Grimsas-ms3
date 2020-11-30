@@ -3,8 +3,6 @@
     <div class="input-field col s10 offset-s1">
         {{ field(**kwargs)|safe }}
         {{ field.label }}
-    </div>
-    <div>
         <ul>
             {% for error in field.errors %}
             <div class="row flashes">
@@ -13,5 +11,40 @@
             {% endfor %}
         </ul>
     </div>
+
 </div>
 {% endmacro %}
+
+{% macro product_card(field) %}
+<div class="row">
+    <div class="col s12 l8">
+      <div class="card">
+        <div class="card-image">
+            <img src=" {{ url_for('static', filename='img/background1.jpg') }}" alt="Unsplashed background img 1">
+          <span class="card-title">{{ field.title }}</span>
+        </div>
+        <div class="card-content">
+          <p>{{ field.review }}</p>
+        </div>
+        <div class="card-action">
+          <a href="{{ field.url }}">{{ field.link }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endmacro %}
+
+
+
+  {% macro category_card(field) %}
+  <div class="input-field col s12 l8">
+    <select class="icons">
+      <option value="" disabled selected>Choose category</option>
+      <option value="{{ field }}" data-icon="images/a.jpg"> {{ field.name }}</option>
+      
+    </select>
+    <label>Choose category</label>
+  </div>
+
+  {% endmacro %}

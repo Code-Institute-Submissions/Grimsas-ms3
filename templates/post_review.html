@@ -1,4 +1,29 @@
-{% extends "base.html" %}
-{% block title %} {% endblock %}
-{% block content %}
+{% from "_form_macros.html" import product_card, category_card %}
+{% extends "base.html" %} {% block content %}
+<h1 class="center-align">Add New Review</h1>
+<div class="row">
+  <div class="col s10 offset-s1 m8 offset-m2">
+    <div class="card">
+      <div class="card-content">
+        <div class="row">
+          <form method="POST" action="/{{ action }}">
+            {{ post_review.csrf_token }}
+            {{ product_card(post_review.title) }}
+            {{ category_card(post_review.category) }}
+            <!-- {{ category_card(post_review.brand) }} -->
+            {{ product_card(post_review.review) }}
+            <!-- {{ category_card(post_review.accept_tnc) }} -->
+            <div class="row">
+              <div class="center-align">
+                <button class="btn-large waves-effect waves-light center-align" type="submit" name="{{ action }}">
+                  Submit!
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
